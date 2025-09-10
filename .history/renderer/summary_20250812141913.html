@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    /* For WebKit-based browsers like Chromium (Electron) */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #111111; /* Scrollbar track background */
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #333; /* Scrollbar handle */
+      border-radius: 6px;
+      border: 2px solid #0e0d0d; /* Padding around thumb */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
+
+    /* Ensure the control stays a single line and fixed height like Bootstrap inputs */
+    .tom-select .ts-control {
+      flex-wrap: nowrap !important;
+      height: 2.5rem; /* roughly Bootstrap input height; tweak if needed */
+      min-height: 2.5rem;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    /* Prevent selected items from wrapping */
+    .tom-select .ts-control .item {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Keep the input field from forcing expansion */
+    .tom-select .ts-control input {
+      min-width: 0;
+    }
+
+    /* Optional: ensure the overall component width is stable */
+    #description_tomselect, /* if Tom Select creates a wrapper with this id */
+    .tom-select {
+      width: 100%;
+    }
+    </style>
+    <!-- Bootstrap Dark Theme (via Bootswatch or manual override) -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/darkly/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384‑PUT‑YOUR‑NEW‑HASH‑HERE"
+        crossorigin="anonymous"
+    >
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="summary">
+        <h1>Summary of the Document</h1>
+        <p>This section provides a brief overview of the main points discussed in the document.</p>
+    </div>
+    <script src="summary.js"></script>
+</body>
+</html>

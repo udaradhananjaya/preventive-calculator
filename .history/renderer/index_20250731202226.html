@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Student's Task Management - Developed by 𝓤𝓓</title>
+  <style>
+    /* For WebKit-based browsers like Chromium (Electron) */
+    ::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #111111; /* Scrollbar track background */
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: #333; /* Scrollbar handle */
+      border-radius: 6px;
+      border: 2px solid #0e0d0d; /* Padding around thumb */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #555;
+    }
+
+    /* Ensure the control stays a single line and fixed height like Bootstrap inputs */
+    .tom-select .ts-control {
+      flex-wrap: nowrap !important;
+      height: 2.5rem; /* roughly Bootstrap input height; tweak if needed */
+      min-height: 2.5rem;
+      align-items: center;
+      box-sizing: border-box;
+    }
+
+    /* Prevent selected items from wrapping */
+    .tom-select .ts-control .item {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Keep the input field from forcing expansion */
+    .tom-select .ts-control input {
+      min-width: 0;
+    }
+
+    /* Optional: ensure the overall component width is stable */
+    #description_tomselect, /* if Tom Select creates a wrapper with this id */
+    .tom-select {
+      width: 100%;
+    }
+  </style>
+  <!-- Bootstrap Dark Theme (via Bootswatch or manual override) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/darkly/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384‑PUT‑YOUR‑NEW‑HASH‑HERE"
+    crossorigin="anonymous"
+  >
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.bootstrap5.min.css" rel="stylesheet" />
+  
+</head>
+<body class="bg-dark text-white">
+  <div class="container py-5">
+    <h1 class="mb-4 text-center">Add Tasks</h1>
+
+    <form id="task-form" class="row g-3 mb-4">
+      <div class="col-md-3">
+        <input
+          type="text"
+          id="title"
+          class="form-control"
+          placeholder="Task ID"
+          required
+          pattern="^\d{1,6}$"
+          maxlength="6"
+          inputmode="numeric"
+        />
+      </div>
+      <div class="col-md-7">
+        <div class="col-md-7">
+          <select id="description" placeholder="Student" class="form-control" autocomplete="off"></select>
+          <div class="invalid-feedback">
+            You must choose a student from the list.
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 d-grid">
+        <button type="submit" class="btn btn-success">Add Task</button>
+      </div>
+    </form>
+    <div class="d-flex gap-2 mb-3">
+      <button type="button" class="btn btn-primary flex-fill" id="viewTasksBtn">View All Tasks</button>
+      <button type="button" class="btn btn-primary flex-fill" id="manageStudentsBtn">Manage Students</button>
+    </div>
+
+    <h3 id="todayTaskCount">Today's Tasks: 0</h3>
+
+    <div class="table-responsive">
+      <table class="table table-dark table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th style="background-color: rgb(30, 30, 30); color: white;">Task ID</th>
+            <th style="background-color: rgb(30, 30, 30); color: white;">Student</th>
+            <th style="background-color: rgb(30, 30, 30); color: white;">Created At</th>
+          </tr>
+        </thead>
+        <tbody id="taskTableBody">
+          <!-- Rows will be inserted here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+      <!-- Toast Container -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
+    <div id="toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body" id="toast-body">
+          <!-- message will be inserted here -->
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+</body>
+</html>

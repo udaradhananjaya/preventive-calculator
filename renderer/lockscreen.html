@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="lockscreen.css">
+  <script src="lockscreen.js" defer></script>
+</head>
+<body>
+  <div id="app">
+		<div id="calc">
+			<section class="title">
+				<span style="padding: 8px; padding-left: 10px;">Calculator</span>
+				<div class="ctrl-btns">
+					<div class="ctrl-btn minimize" id="minimize-btn">
+						<img class="ctrl-btn-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA9SURBVHhe7c2xCQAwDAQx7790AukCLl28QYKrrwAAAAAAAADgc5Y1rpskN66bJDeumyQHAAAAAAAAAE/VBW1Ir1GTIcCQAAAAAElFTkSuQmCC">
+					</div>
+					<div class="ctrl-btn">
+						<img class="ctrl-btn-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADhSURBVHhe7c4xagQwAAPB+/+nkz44pFgPOKAB1avPzMzMzMyfvv7ZrjtFXt51p8jLu+4UeXnX8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT/8UDE//FAxP/xQMT//Qy8vutOkZd33Sny8q47RV7ezMzMzMyvPp9v5AB9n9NSgHEAAAAASUVORK5CYII=">
+					</div>
+					<div class="ctrl-btn close" id="close-btn">
+						<img class="ctrl-btn-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEsSURBVHhe7ZpbCsIwFAW7JbfkRnTjornSA6UkpY/kvnoGgrR+dOagf50IIYQQQgghR3nMnx5Qd3mV8ynn+b+yRRzERZxUkAd952M9AuLhM3wE+aktH2g5wjoeLsP/Dq0Ha45g7mApYB4PLETcxANNIXfxQEPMbTwYKeg+HowQDRMPegqHiwc9xMPGgysB4ePBmZA08eBIULp4sCcsbTzYCkwfD1qht4gHtRGWJ3U8aI1wi3jh1gO04nFSj1CLl+vavXQjtOLl/tZ3KdgTmHaEI2HpRjgTlGaEKyHhR+gREHaEnuLhRhghHGaEkaLuR9AQdDuCppi7ESyE3IxgKWI+grlAwcyBr8gU3uVYx4P1COKmgjzIOh5gBLV4oP5y4gaeXAghhBBCCPHPNP0A9SOjGKIGTtMAAAAASUVORK5CYII=">
+					</div>
+				</div>
+			</section>
+			<section class="menu">
+				<div class="btn menu-btn">
+					<img class="menu-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAA4SURBVFhH7dOxCQAADAJB9186WUCwMZDiD760VAA+muMiN2oGIHLXaRa5UTMAkbtOs8iNmgH4RFrzpY9xuWJl5QAAAABJRU5ErkJggg==">
+				</div>
+				<span style="font-size: 25px; font-weight: 400;">Standard</span>
+				<div class="btn history-btn">
+					<img class="history-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHISURBVFhH7ZY5TsQwFIanREL0rGIVcBeWjoLtAKwFi+AmCKiR2GmAgoOwXIAaEBJi5//CPMmKsjiJy3zSpxm/PL94Mo7tRk1NQfrllryRj/JNvso7eS0XZbcMTp88lN/yN8dPuS87ZCmskDEn+ZXE3uWBnJK9skW2yhE5LY8kOeQ+y3FZGHcAPG5rn0lumsegPJH04YmtyELYDeebnz9yTSZhuUmsy6+mEwR8saL22LdlGlkDAAbB9SfpPSesKDKzs7C8LE4lOXtRywMrmmSctLgLc4KJydvRRSAP94Zx46TF4xxL8lgnguI7gBlJ3mXUCojvAIYlefdRKyA2gCRd2iSxl6iVA0kk0ykP94ZxXQoN4EGSzGMLBUs1Nb3+gitJMmt7KGYlNb0m4ZIkmY0lFPYaLkStHHokiwaLxwCBirAQfUhqdhLwgf2cETPyqlxIau1ELU8YKRsIHdN2Qh82JDWo1U6gCJPStlN2taJsSus/RqAMq9KOYRwyhmQe5JxL+nDzZVkJjlUcryjIxGResLaPSo5jyHdeNa65R7LSvzwOh4ldyUymeJbkMOFKH0qzYD/nXWZBuZUsrch3Ylzz2vNrav5pNP4ArhaxkX71zlYAAAAASUVORK5CYII=">
+				</div>
+			</section>
+			<section class="display">
+				<div class="prev-operation">
+					<span style="color: #5f5d5d;" id="history-display">0</span>
+				</div>
+				<div class="curr-operation">
+					<span style="font-size: 45px;font-weight: 500;" id="main-display">0</span>
+				</div>
+			</section>
+			<section class="mem-btns">
+				<div class="btn">
+					<span>MC</span>
+				</div>
+				<div class="btn">
+					<span>MR</span>
+				</div>
+				<div class="btn">
+					<span>M+</span>
+				</div>
+				<div class="btn">
+					<span>M-</span>
+				</div>
+				<div class="btn">
+					<span>MS</span>
+				</div>
+				<div class="btn">
+					<span>M</span>
+				</div>
+			</section>
+			<section class="buttons">
+				<div class="btn">%</div>
+				<div class="btn">CE</div>
+				<div class="btn">C</div>
+				<div class="btn" id="backspace">Back</div>
+				<div class="btn">1/x</div>
+				<div class="btn">x2</div>
+				<div class="btn">&lt;</div>
+				<div class="btn" id="div">/</div>
+				<div class="btn num" id="seven">7</div>
+				<div class="btn num" id="eight">8</div>
+				<div class="btn num" id="nine">9</div>
+				<div class="btn" id="times">X</div>
+				<div class="btn num" id="four">4</div>
+				<div class="btn num" id="five">5</div>
+				<div class="btn num" id="six">6</div>
+				<div class="btn" id="minus">-</div>
+				<div class="btn num" id="one">1</div>
+				<div class="btn num" id="two">2</div>
+				<div class="btn num" id="three">3</div>
+				<div class="btn" id="plus">+</div>
+				<div class="btn">+</div>
+				<div class="btn num" id="zero">0</div>
+				<div class="btn num" id="dot">.</div>
+				<div class="btn" id="equal">=</div>
+			</section>
+		</div>
+	</div>
+</body>
+</html>

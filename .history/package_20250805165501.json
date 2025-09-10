@@ -1,0 +1,45 @@
+{
+  "name": "electron-sequelize-app",
+  "version": "1.0.0",
+  "description": "An app to manage student tasks using Electron, Sequelize, and SQLite",
+  "author": "UD",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "build": {
+    "appId": "com.ud.student.taskapp",
+    "productName": "Student Task App by UD",
+    "copyright": "Copyright © 2025",
+    "files": [
+      "**/*"
+    ],
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "win": {
+      "target": "portable",
+      "icon": "build/graduate.ico",
+      "artifactName": "${productName}-v${version}.exe"
+    }
+  },
+  "dependencies": {
+    "fuse.js": "^7.1.0",
+    "sequelize": "^6.37.7",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^3.7.2",
+    "autoprefixer": "^10.4.21",
+    "electron": "^28.2.5",
+    "electron-builder": "^24.13.3",
+    "electron-rebuild": "^3.2.9",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11"
+  },
+  "keywords": [],
+  "license": "ISC"
+}
