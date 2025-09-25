@@ -31,7 +31,13 @@ contextBridge.exposeInMainWorld('api', {
   navigateToStudents: () => ipcRenderer.send('navigate-students'),
   navigateToSummary: () => ipcRenderer.send('navigate-summary'),
   navigateToIndex: () => ipcRenderer.send('navigate-index'),
+  navigateToReport: () => ipcRenderer.send('navigate-report'),
 
   // Listen for clipboard value and set title field
   onSetTitleField: (callback) => ipcRenderer.on('set-title-field', (event, value) => callback(value)),
+
+  // Report operations
+  getReportData: (filters) => ipcRenderer.invoke('get-report-data', filters),
+  exportCSV: (data) => ipcRenderer.invoke('export-csv', data),
+  exportPDF: (data) => ipcRenderer.invoke('export-pdf', data),
 });

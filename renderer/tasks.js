@@ -620,6 +620,15 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+// Navigate to the Report window with F5
+document.addEventListener("keydown", (e) => {
+  const key = e.key;
+  if (key === 'F5') {
+    e.preventDefault();
+    window.api.navigateToReport();
+  }
+});
+
 //navigate to the Credits window with F9 key
 document.addEventListener("keydown", (e) => {
   const key = e.key;

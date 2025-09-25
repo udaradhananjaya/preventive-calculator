@@ -1,3 +1,4 @@
+// index.js
 const { Sequelize } = require('sequelize');
 const fs = require('fs');
 const logStream = fs.createWriteStream('sequelize.log', { flags: 'a' }); // 'a' for append

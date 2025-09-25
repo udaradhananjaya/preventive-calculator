@@ -310,3 +310,12 @@ document.addEventListener("keydown", (e) => {
     window.api.navigateCredits();
   }
 });
+
+// Navigate to the Report window with F5
+document.addEventListener("keydown", (e) => {
+  const key = e.key;
+  if (key === 'F5') {
+    e.preventDefault();
+    window.api.navigateToReport();
+  }
+});

@@ -143,3 +143,7 @@ tasks.sqlite
 # Google Cloud
 serviceAccountKey.json"serviceAccountKey.json" 
 serviceAccountKey.json 
+
+.history/
+*.csv
+*.pdf

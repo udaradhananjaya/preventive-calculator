@@ -4,6 +4,7 @@ const { sequelize, Task, Student, Company } = require('./models');
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
 const fs = require('fs');
+const report = require('./renderer/report'); // adjust path as needed
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
@@ -152,6 +153,12 @@ ipcMain.on('navigate-index', () => {
 ipcMain.on('navigate-credits', () => {
   if (mainWindow) {
     mainWindow.loadFile('./renderer/credits.html');
+  }
+});
+
+ipcMain.on('navigate-report', () => {
+  if (mainWindow) {
+    mainWindow.loadFile('./renderer/report.html');
   }
 });
 
@@ -360,3 +367,21 @@ async function syncTasksToFirebase() {
   await batch.commit();
   console.log('Tasks synced to Firebase!');
 }
+
+//--------------------------------Report Handlers--------------------------------
+ipcMain.handle('get-report-data', async (event, filters) => {
+  return await report.getReportData(filters);
+});
+
+ipcMain.handle('export-csv', async (event, data) => {
+  // You may want to prompt for file path using dialog.showSaveDialog
+  const filePath = 'report.csv'; // Replace with dialog result
+  await report.exportCSV(data, filePath);
+  return true;
+});
+
+ipcMain.handle('export-pdf', async (event, data) => {
+  const filePath = 'report.pdf'; // Replace with dialog result
+  await report.exportPDF(data, filePath);
+  return true;
+});

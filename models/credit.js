@@ -1,3 +1,4 @@
+// credit.js
 const { DataTypes } = require('sequelize');
 const fs = require('fs');
 
