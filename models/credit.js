@@ -4,9 +4,15 @@ const fs = require('fs');
 
 module.exports = (sequelize) => {
   const Credit = sequelize.define('Credit', {
-    amount: {
+    income: {
       type: DataTypes.FLOAT,
-      allowNull: false,
+      allowNull: true,
+      defaultValue: 0,
+    },
+    expenses: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+      defaultValue: 0,
     },
     description: {
       type: DataTypes.TEXT,

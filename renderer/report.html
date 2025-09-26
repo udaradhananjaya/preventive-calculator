@@ -57,14 +57,14 @@
         </select>
       </div>
       <div class="col-md-3 d-flex align-items-end">
-        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+        <button type="reset" class="btn btn-warning w-100">Rest Filters</button>
       </div>
     </form>
 
     <div class="row g-4">
       <div class="col-lg-6">
         <div class="card shadow-sm">
-          <div class="card-header">Tasks Created Per Day (Calendar)</div>
+          <div class="card-header">Tasks Created Per Day</div>
           <div class="card-body chart-container">
             <canvas id="calendarChart"></canvas>
           </div>
@@ -180,13 +180,26 @@
         type: 'line',
         data: {
           labels: completedLabels,
-          datasets: [{ label: 'Tasks Completed', data: completedCounts, borderColor: '#198754', backgroundColor: 'rgba(25,135,84,0.2)', fill: true }]
+          datasets: [{
+            label: 'Tasks Completed',
+            data: completedCounts,
+            borderColor: '#198754',
+            backgroundColor: 'rgba(25,135,84,0.2)',
+            fill: true
+          }]
         },
         options: {
           responsive: true,
           scales: {
             x: { grid: darkGrid, ticks: darkTicks },
-            y: { grid: darkGrid, ticks: darkTicks }
+            y: {
+              grid: darkGrid,
+              ticks: {
+                ...darkTicks,
+                stepSize: 5 // Show increments of 1 (adjust as needed)
+              },
+              suggestedMax: Math.max(...completedCounts) + 5
+            }
           }
         }
       });
@@ -222,9 +235,20 @@
       renderTable(reportData.studentStats);
     }
 
-    document.getElementById('filterForm').addEventListener('submit', async e => {
+    const filterForm = document.getElementById('filterForm');
+    filterForm.addEventListener('submit', async e => {
       e.preventDefault();
       await loadReport();
+    });
+
+    // Dynamically update charts when filters change
+    ['studentSelect', 'startDate', 'endDate'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.addEventListener('change', async () => {
+          await loadReport();
+        });
+      }
     });
 
     document.getElementById('exportCSV').addEventListener('click', async () => {
@@ -237,8 +261,87 @@
       alert('PDF exported!');
     });
 
+    let defaultStartDate, defaultEndDate;
+
+    // Set default start date to Monday of current week, end date to today
+    (function setDefaultDates() {
+      const today = new Date();
+      const dayOfWeek = today.getDay(); // 0 (Sun) - 6 (Sat)
+      const monday = new Date(today);
+      // If today is Sunday (0), set Monday to 6 days ago
+      monday.setDate(today.getDate() - ((dayOfWeek + 6) % 7));
+      const yyyy = monday.getFullYear();
+      const mm = String(monday.getMonth() + 1).padStart(2, '0');
+      const dd = String(monday.getDate()).padStart(2, '0');
+      const mondayStr = `${yyyy}-${mm}-${dd}`;
+      const todayStr = today.toISOString().slice(0, 10);
+
+      document.getElementById('startDate').value = mondayStr;
+      document.getElementById('endDate').value = todayStr;
+
+      // Store defaults for reset
+      defaultStartDate = mondayStr;
+      defaultEndDate = todayStr;
+    })();
+
+    // Reset filter fields to default values on reset button click
+    document.getElementById('filterForm').addEventListener('reset', function (e) {
+      // Timeout ensures this runs after the form resets
+      setTimeout(() => {
+        document.getElementById('startDate').value = defaultStartDate;
+        document.getElementById('endDate').value = defaultEndDate;
+        document.getElementById('studentSelect').value = "";
+        loadReport();
+      }, 0);
+    });
+
     // Initial load
     loadStudents().then(loadReport);
+
+    // Navigate to the Add Task window with F1 key
+    document.addEventListener("keydown", (e) => {
+      const key = e.key;
+      if (key === 'F1') {
+        e.preventDefault();
+        window.api.navigateToIndex();
+      }
+    });
+
+    // Navigate to the All Tasks window with F2 key
+    document.addEventListener("keydown", (e) => {
+      const key = e.key;
+      if (key === 'F2') {
+        e.preventDefault();
+        window.api.navigateToTasks();
+      }
+    });
+
+    // Navigate to the Students window with F3 key
+    document.addEventListener("keydown", (e) => {
+      const key = e.key;
+      if (key === 'F3') {
+        e.preventDefault();
+        window.api.navigateToStudents();
+      }
+    });
+
+    // Navigate to the Summary window with F4 key
+    document.addEventListener("keydown", (e) => {
+      const key = e.key;
+      if (key === 'F4') {
+        e.preventDefault();
+        window.api.navigateToSummary();
+      }
+    });
+
+    //navigate to the Credits window with F9 key
+    document.addEventListener("keydown", (e) => {
+      const key = e.key;
+      if (key === 'F9') {
+        e.preventDefault();
+        window.api.navigateCredits();
+      }
+    });
   </script>
 </body>
 </html>

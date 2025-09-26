@@ -3,16 +3,26 @@ const { Op } = require('sequelize');
 const { Parser } = require('json2csv');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
+const { Table } = require('pdfkit-table');
 
 async function getReportData({ startDate, endDate, studentId }) {
-  // Build where clauses
-  const dateFilter = {};
-  if (startDate) dateFilter[Op.gte] = new Date(startDate);
-  if (endDate) dateFilter[Op.lte] = new Date(endDate);
-
+  const { Op } = require('sequelize');
   const taskWhere = {};
-  if (startDate || endDate) taskWhere.createdAt = dateFilter;
-  if (studentId) taskWhere.studentId = studentId;
+
+  if (startDate || endDate) {
+    taskWhere.createdAt = {};
+    if (startDate) {
+      // Start of the day
+      taskWhere.createdAt[Op.gte] = new Date(startDate + 'T00:00:00.000Z');
+    }
+    if (endDate) {
+      // End of the day
+      taskWhere.createdAt[Op.lte] = new Date(endDate + 'T23:59:59.999Z');
+    }
+  }
+  if (studentId) {
+    taskWhere.studentId = studentId;
+  }
 
   // Tasks per day (calendar)
   const tasks = await Task.findAll({
@@ -33,7 +43,7 @@ async function getReportData({ startDate, endDate, studentId }) {
     const studentTasks = tasks.filter(t => t.studentId === s.id);
     const completed = studentTasks.filter(t => t.status).length;
     const pending = studentTasks.filter(t => !t.status).length;
-    const totalCredits = credits.filter(c => c.studentId === s.id).reduce((sum, c) => sum + c.amount, 0);
+    const totalCredits = credits.filter(c => c.studentId === s.id).reduce((sum, c) => sum + c.income, 0);
     return {
       id: s.id,
       name: s.name,
@@ -90,16 +100,52 @@ async function exportCSV(data, filePath) {
 
 // Export to PDF (summary table only)
 async function exportPDF(studentStats, filePath) {
-  const doc = new PDFDocument();
+  const doc = new PDFDocument({ margin: 40 });
   doc.pipe(fs.createWriteStream(filePath));
   doc.fontSize(16).text('Student Task Summary', { align: 'center' });
   doc.moveDown();
+
+  // Table setup
   doc.fontSize(12);
-  // Table header
-  doc.text('Name\tTotal\tCompleted\tPending\tCredits');
-  studentStats.forEach(s => {
-    doc.text(`${s.name}\t${s.total}\t${s.completed}\t${s.pending}\t${s.credits}`);
+  const tableTop = doc.y + 10;
+  const rowHeight = 24;
+  const colWidths = [180, 70, 70, 70, 70];
+  const startX = doc.page.margins.left;
+  const headers = ['Name', 'Total', 'Completed', 'Pending', 'Credits'];
+
+  // Draw header row with borders
+  let x = startX;
+  let y = tableTop;
+  headers.forEach((header, i) => {
+    doc.rect(x, y, colWidths[i], rowHeight).stroke();
+    doc.text(header, x + 4, y + 6, { width: colWidths[i] - 8, align: 'left' });
+    x += colWidths[i];
   });
+
+  // Draw data rows with borders
+  y += rowHeight;
+  studentStats.forEach(s => {
+    let x = startX;
+    const row = [
+      s.name,
+      s.total,
+      s.completed,
+      s.pending,
+      s.credits.toFixed(2)
+    ];
+    row.forEach((cell, i) => {
+      doc.rect(x, y, colWidths[i], rowHeight).stroke();
+      doc.text(cell.toString(), x + 4, y + 6, { width: colWidths[i] - 8, align: 'left' });
+      x += colWidths[i];
+    });
+    y += rowHeight;
+    // Add new page if needed
+    if (y + rowHeight > doc.page.height - doc.page.margins.bottom) {
+      doc.addPage();
+      y = doc.page.margins.top;
+    }
+  });
+
   doc.end();
 }
 
