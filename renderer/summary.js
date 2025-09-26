@@ -132,3 +132,8 @@ document.addEventListener("keydown", (e) => {
     window.api.navigateToReport();
   }
 });
+
+//Navigate to the Report window
+document.getElementById('reportsBtn').addEventListener('click', () => {
+  window.location.href = 'report.html';
+});
