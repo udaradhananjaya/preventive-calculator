@@ -173,20 +173,33 @@ editTaskForm.addEventListener('submit', async (e) => {
 });
 
 function updateTaskCounts(tasksToRender) {
-  const countElement = document.getElementById('totalTaskCount');
+  // Remove totalTaskCount logic
+  // const countElement = document.getElementById('totalTaskCount');
+  const todayCompletedCountElement = document.getElementById('todayCompletedTaskCount');
   const completedCountElement = document.getElementById('completedTaskCount');
   const pendingCountElement = document.getElementById('pendingTaskCount');
   const detainedCountElement = document.getElementById('detainedTaskCount');
 
   let completedTasks = 0;
   let detainedTasks = 0;
+  let todayCompletedTasks = 0;
+
+  // Get today's date in YYYY-MM-DD format
+  const todayStr = new Date().toISOString().split('T')[0];
+
   for (const task of tasksToRender) {
     if (task.status) completedTasks++;
     if (task.detained) detainedTasks++;
+    // Count tasks completed today
+    if (task.status && task.completedDate) {
+      const completedDateStr = new Date(task.completedDate).toISOString().split('T')[0];
+      if (completedDateStr === todayStr) todayCompletedTasks++;
+    }
   }
   const pendingTasks = tasksToRender.length - completedTasks - detainedTasks;
 
-  countElement.textContent = `Total Tasks: ${tasksToRender.length}`;
+  // Update todayCompletedTaskCount element
+  todayCompletedCountElement.textContent = `Today's Completed Tasks: ${todayCompletedTasks}`;
   completedCountElement.textContent = `Completed Tasks: ${completedTasks}`;
   pendingCountElement.textContent = `Pending Tasks: ${pendingTasks}`;
   detainedCountElement.textContent = `Detained Tasks: ${detainedTasks}`;
@@ -207,6 +220,9 @@ function displayTasks(tasksToRender) {
   if (!isSearchActive) {
     tasksToShow = tasksToRender.slice(0, 100);
   }
+
+  // Get today's date in YYYY-MM-DD format
+  const todayStr = new Date().toISOString().split('T')[0];
 
   // Render tasks
   tasksToShow.forEach(task => {
@@ -281,14 +297,22 @@ function displayTasks(tasksToRender) {
       checkbox.checked = !!task.status;
       checkbox.style.transform = 'scale(1.5)';
       checkbox.style.cursor = 'pointer';
-        // Make completed or detained tasks' checkboxes uncheckable
-        if (checkbox.checked || task.detained) {
-          checkbox.disabled = true;
-        }
+      // Make completed or detained tasks' checkboxes uncheckable
+      if (checkbox.checked || task.detained) {
+        checkbox.disabled = true;
+      }
 
-      // Apply initial highlight
-      row.classList.toggle('table-success', checkbox.checked);
-      row.classList.toggle('table-warning', task.detained);
+      // Highlight logic for completed today
+      if (checkbox.checked && task.completedDate) {
+        const completedDateStr = new Date(task.completedDate).toISOString().split('T')[0];
+        if (completedDateStr === todayStr) {
+          row.classList.add('table-primary');
+        } else {
+          row.classList.add('table-success');
+        }
+      } else if (task.detained) {
+        row.classList.add('table-warning');
+      }
 
       // Handle checkbox toggle
       checkbox.addEventListener('change', async () => {
