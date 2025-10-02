@@ -342,6 +342,25 @@
         window.api.navigateCredits();
       }
     });
+
+    // For start date input
+    const startDateInput = document.getElementById('startDate');
+    if (startDateInput) {
+      startDateInput.addEventListener('click', function () {
+        this.showPicker && this.showPicker(); // For browsers that support showPicker()
+        // For others, fallback to focusing (opens picker in most browsers)
+        this.focus();
+      });
+    }
+
+    // For end date input
+    const endDateInput = document.getElementById('endDate');
+    if (endDateInput) {
+      endDateInput.addEventListener('click', function () {
+        this.showPicker && this.showPicker();
+        this.focus();
+      });
+    }
   </script>
 </body>
 </html>

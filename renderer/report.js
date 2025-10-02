@@ -57,7 +57,6 @@ async function getReportData({ startDate, endDate, studentId }) {
   // Calendar: count tasks per day
   const calendar = {};
   tasks.forEach(t => {
-    // const day = t.createdAt.toISOString().slice(0, 10); // <-- This line causes the error
     const day = typeof t.createdAt === 'string'
       ? t.createdAt.slice(0, 10)
       : t.createdAt?.toISOString().slice(0, 10);
