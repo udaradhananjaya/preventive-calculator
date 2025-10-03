@@ -733,8 +733,8 @@ document.getElementById('printPendingBtn').addEventListener('click', () => {
     });
   }
 
-  // Only pending tasks (not completed)
-  const pendingTasks = filtered.filter(task => !task.status);
+  // Only pending tasks (not completed) and not detained
+  const pendingTasks = filtered.filter(task => !task.status && !task.detained);
 
   // Get all unique descriptions from pending tasks and join them
   const descriptions = [...new Set(pendingTasks.map(task => task.description).filter(Boolean))];
